@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173d37">
+  <title>Horse Shoe Pop | Conservation Legacy</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true">CL</div>
+      <div>
+        <p class="eyebrow">Conservation Legacy • Pure Puerto Rican Paso Fino</p>
+        <h1>Horse Shoe <span>Pop</span></h1>
+      </div>
+      <button id="soundBtn" class="icon-btn" aria-label="Toggle sound" title="Sound">♪</button>
+    </header>
+
+    <section class="mission-bar" aria-label="Game status">
+      <div><small>Level</small><strong id="levelLabel">1</strong></div>
+      <div><small>Score</small><strong id="scoreLabel">0</strong></div>
+      <div><small>Coins</small><strong id="coinLabel">0</strong></div>
+      <div><small>Shots</small><strong id="shotsLabel">8</strong></div>
+    </section>
+
+    <section class="play-card">
+      <div class="landscape" aria-hidden="true">
+        <div class="sun"></div><div class="mountains back"></div><div class="mountains front"></div>
+        <div class="hacienda"></div><div class="palm palm-a"></div><div class="palm palm-b"></div>
+      </div>
+      <canvas id="gameCanvas" width="720" height="920" aria-label="Horse Shoe Pop game board"></canvas>
+      <div class="board-vignette" aria-hidden="true"></div>
+      <div id="startPanel" class="overlay open">
+        <div class="horse-medallion" aria-hidden="true">
+          <svg viewBox="0 0 160 160"><path d="M43 127c8-29 2-50 18-71 10-14 25-21 42-20l19-14-2 29c10 10 14 25 8 38-6 13-19 18-34 17-4 14-3 24 3 37H64c-3-12-2-22 1-32-9 8-14 13-22 16Z"/><path class="mane" d="M66 54c-15 12-14 31-9 47 1-17 9-29 22-37-2-8-6-11-13-10Z"/></svg>
+        </div>
+        <p class="eyebrow">A Conservation Legacy Game</p>
+        <h2>Restore the Heritage Trail</h2>
+        <p>Match three or more horseshoes. Clear the trail, earn Conservation Coins, and discover the living story of Puerto Rico's native horse.</p>
+        <button id="startBtn" class="primary-btn">Begin the Ride</button>
+      </div>
+      <div id="resultPanel" class="overlay">
+        <p class="eyebrow" id="resultEyebrow">Mission Complete</p>
+        <h2 id="resultTitle">Trail Restored!</h2>
+        <p id="resultText"></p>
+        <button id="nextBtn" class="primary-btn">Continue</button>
+      </div>
+    </section>
+
+    <aside class="story-card">
+      <div class="fact-icon" aria-hidden="true">✦</div>
+      <div><small>Heritage Note</small><p id="factText">The Pure Puerto Rican Paso Fino is treasured for its naturally smooth, four-beat gait.</p></div>
+    </aside>
+
+    <footer><span>Match 3+ horseshoes</span><span>•</span><span>Every play supports learning</span></footer>
+  </main>
+  <script src="game.js"></script>
+</body>
+</html>
