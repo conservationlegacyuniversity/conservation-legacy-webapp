@@ -16,6 +16,7 @@
         <p class="eyebrow">Conservation Legacy • Pure Puerto Rican Paso Fino</p>
         <h1>Horse Shoe <span>Pop</span></h1>
       </div>
+      <button id="trailBtn" class="icon-btn trail-btn" aria-label="Open heritage trail map" title="Heritage Trail">Map</button>
       <button id="soundBtn" class="icon-btn" aria-label="Toggle sound" title="Sound">♪</button>
       <button id="achievementBtn" class="icon-btn achievement-btn" aria-label="Open achievements" title="Achievements">★</button>
     </header>
@@ -49,7 +50,7 @@
       <aside class="horse-guide" aria-label="Paso Fino trail guide"><img src="assets/brisa-mare-card.webp" alt="Brisa de la Finca, Pure Puerto Rican Paso Fino mare"><p><b>Brisa’s Trail</b><span>Build a ×2 combo to win a prize.</span></p></aside>
       <div id="prizeToast" class="prize-toast" role="status" aria-live="polite"><img src="assets/pequeno-paso-foal-card.webp" alt="Pequeño Paso foal prize card"><span id="prizeMessage"></span></div>
       <div id="startPanel" class="overlay open">
-        <div class="horse-medallion"><img src="assets/brisa-mare-card.webp" alt="Brisa de la Finca, Pure Puerto Rican Paso Fino mare"></div>
+        <div class="horse-medallion"><img src="assets/brisa-medallion.webp" alt="Brisa de la Finca, Pure Puerto Rican Paso Fino mare"></div>
         <p class="eyebrow">A Conservation Legacy Game</p>
         <h2>Restore the Heritage Trail</h2>
         <p>Match three or more horseshoes. Clear the trail, earn Conservation Coins, and discover the living story of Puerto Rico's native horse.</p>
@@ -67,6 +68,29 @@
         <h2 id="achievementTitle">Achievements</h2>
         <div id="achievementList" class="achievement-list"></div>
         <button id="closeAchievements" class="primary-btn">Return to the Trail</button>
+      </div>
+      <div id="trailMapPanel" class="overlay trail-map-panel" role="dialog" aria-modal="true" aria-labelledby="trailMapTitle">
+        <div class="trail-map-scroll">
+          <p class="eyebrow">Puerto Rico Heritage Trail</p>
+          <h2 id="trailMapTitle">Hacienda Beginnings</h2>
+          <p id="trailMapProgress" class="trail-map-progress">Chapter 1 of 10</p>
+          <div id="trailStops" class="trail-stops" aria-label="Chapter level stops"></div>
+          <article class="heritage-lesson">
+            <img id="trailHorse" src="assets/brisa-medallion.webp" alt="Pure Puerto Rican Paso Fino trail guide">
+            <div>
+              <small id="trailStoryLabel">Heritage lesson</small>
+              <h3 id="trailStoryTitle">Meet the Paso Fino</h3>
+              <p id="trailStoryText"></p>
+            </div>
+          </article>
+          <article class="trail-challenge">
+            <small id="trailChallengeLabel">Next challenge</small>
+            <strong id="trailChallengeText">Clear every bubble</strong>
+            <span id="trailChallengeReward">Reward: up to 3 Heritage Stars</span>
+          </article>
+          <button id="rideTrailBtn" class="primary-btn">Ride to Level 1</button>
+          <button id="closeTrailMap" class="map-close-btn" type="button">Return to current game</button>
+        </div>
       </div>
     </section>
 

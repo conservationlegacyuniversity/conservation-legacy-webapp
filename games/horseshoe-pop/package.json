@@ -1,0 +1,7 @@
+{
+  "name": "horseshoe-pop",
+  "private": true,
+  "scripts": {
+    "dev": "node dev-server.mjs"
+  }
+}
