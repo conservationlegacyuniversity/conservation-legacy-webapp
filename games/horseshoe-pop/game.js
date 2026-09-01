@@ -2,10 +2,15 @@
   'use strict';
   const canvas=document.getElementById('gameCanvas'),ctx=canvas.getContext('2d');
   const ui={level:byId('levelLabel'),score:byId('scoreLabel'),coins:byId('coinLabel'),combo:byId('comboLabel'),shots:byId('shotsLabel'),fact:byId('factText'),start:byId('startPanel'),result:byId('resultPanel'),toast:byId('prizeToast'),prizeMessage:byId('prizeMessage'),rainbow:byId('rainbowCount'),hammer:byId('hammerCount'),chapter:byId('chapterLabel'),mission:byId('missionLabel'),starFill:byId('starFill'),starLabel:byId('starLabel'),resultStars:byId('resultStars'),achievements:byId('achievementPanel'),achievementList:byId('achievementList'),trailMap:byId('trailMapPanel'),trailStops:byId('trailStops')};
-  const colors=['#b66a36','#d7a93d','#3d91b6','#df7b30','#c84d3f','#87a83e','#446fb8'];
-  const tileSources=['feed-sack','hay-bale','water-bucket','carrot','apple','grain-bundle','ribbon-award'];
-  const tileNames=['Feed Sack','Hay Bale','Water Bucket','Carrot','Apple','Grain Bundle','Ribbon Award'];
+  const colors=['#b66a36','#d7a93d','#3d91b6','#df7b30','#c84d3f','#87a83e','#446fb8','#c7443e','#68a43e','#a83f32','#d5a13c'];
+  const tileSources=['feed-sack','hay-bale','water-bucket','carrot','apple','grain-bundle','ribbon-award','puerto-rico-flag','coqui','coffee-berries','heritage-medallion'];
+  const tileNames=['Feed Sack','Hay Bale','Water Bucket','Carrot','Apple','Grain Bundle','Ribbon Award','Puerto Rican Flag','Coquí','Coffee Berries','Heritage Medallion'];
   const tileImages=tileSources.map(name=>{const image=new Image();image.src=`assets/bubbles/${name}.png`;return image});
+  const chapterPalettes=[
+    [0,1,2,3,7],[0,1,3,4,5,6],[2,3,4,8,0,1],[2,3,4,7,6,0],[0,1,2,3,5,7],
+    [0,2,3,4,7,8],[0,1,2,5,6,10],[0,1,3,4,5,6,10],[0,1,2,3,9,10],[3,4,6,7,8,9,10]
+  ];
+  const bubbleUnlockLevels=[1,1,1,3,13,15,17,5,23,85,67];
   const launcherImage=new Image();launcherImage.src='assets/launcher-horseshoe.png';
   const facts=[
     'The Pure Puerto Rican Paso Fino is treasured for its naturally smooth, four-beat gait.',
@@ -17,6 +22,19 @@
   ];
   const chapters=['Harbor Beginnings','Northern Plantation Country','Rainforest Passage','Eastern Coastal Ranches','Southern Drylands','Mountain Towns','Cordillera Challenge','Western Horse Country','Coffee Hacienda Trails','Heritage Homecoming'];
   const chapterPlaces=['Historic harbor and coastal town','Northern sugar country and old estates','Eastern rainforest and river terrain','Coastal ranches and fishing towns','Dry southern plains and working farms','Interior mountain towns','Central Cordillera highlands','Western horse and breeding country','Coffee haciendas and steep farm trails','Island-wide heritage celebration'];
+  const destinationMaps=['01-harbor.webp','02-plantation-country.webp','03-rainforest.webp','04-coastal-ranches.webp','05-southern-drylands.webp','06-mountain-towns.webp','07-cordillera.webp','08-western-horse-country.webp','09-coffee-trails.webp','10-heritage-homecoming.webp'];
+  const destinationStops=[
+    [[65,90],[34,89],[54,82],[65,70],[52,61],[31,52],[43,44],[45,33],[29,25],[31,16]],
+    [[70,90],[56,84],[33,79],[39,70],[72,65],[60,55],[28,49],[40,41],[72,35],[61,25]],
+    [[25,89],[44,78],[61,65],[32,58],[42,48],[70,43],[85,35],[64,27],[36,22],[56,15]],
+    [[65,90],[26,87],[41,70],[75,71],[59,55],[33,47],[49,39],[50,28],[25,25],[35,19]],
+    [[51,91],[80,85],[40,81],[68,72],[52,60],[61,48],[37,41],[51,31],[40,21],[31,13]],
+    [[30,91],[60,81],[80,73],[77,61],[34,57],[19,43],[45,35],[75,26],[51,18],[44,10]],
+    [[78,89],[33,88],[55,74],[80,61],[42,56],[61,43],[31,42],[64,29],[65,18],[40,12]],
+    [[46,88],[64,81],[68,72],[44,65],[64,58],[59,49],[35,45],[38,37],[59,33],[54,25]],
+    [[30,91],[70,91],[58,83],[43,72],[58,62],[34,51],[76,40],[45,31],[74,24],[45,17]],
+    [[53,91],[80,85],[50,78],[34,64],[75,57],[74,44],[44,36],[32,27],[61,21],[37,15]]
+  ];
   const trailStories=[
     ['Meet the Puerto Rican Paso Fino','Begin near the harbor and old town, where ships, roads, farms, and families shaped island life. Meet the breed’s naturally even four-beat gait and start following its living story.'],
     ['Plantation Country—The Whole Story','The northern coastal plain held large agricultural estates and sugar mills. This history includes wealth and development, but also slavery and exploited labor; the trail remembers the people as well as the landscape.'],
@@ -43,7 +61,7 @@
   ];
   const achievementDefs=[['first_ride','First Ride','Complete your first level'],['star_student','Star Student','Earn 15 stars'],['trail_master','Trail Master','Complete 10 levels'],['combo_caballero','Combo Caballero','Reach a ×3 multiplier'],['gravity_rider','Gravity Rider','Drop 25 loose horseshoes'],['coin_keeper','Conservation Keeper','Earn 100 coins'],['power_legacy','Power of the Legacy','Use 10 power-ups'],['ppr_champion','PPR Champion','Complete all 100 levels']];
   const saved=loadProgress();
-  const R=34,GAP=4,COLS=9,ROW_H=R*1.76,TOP=76; let board=[],fallingPieces=[],level=saved.level,score=saved.score,coins=saved.coins,stars=saved.stars,completed=saved.completed,stats=saved.stats,earned=new Set(saved.earned),combo=0,levelScore=0,levelDropped=0,shots=8,active=false,aim={x:360,y:500},shot=null,nextColor=0,previewColor=1,sound=saved.sound,selectedPower=null,powers=saved.powers,missesSinceDrop=0,boardYOffset=0,rowAnimating=false,bestScores=saved.bestScores,daily=saved.daily;
+  const R=34,GAP=4,COLS=9,ROW_H=R*1.76,TOP=76; let board=[],fallingPieces=[],level=saved.level,score=saved.score,coins=saved.coins,stars=saved.stars,completed=saved.completed,stats=saved.stats,earned=new Set(saved.earned),combo=0,levelScore=0,levelDropped=0,shots=8,active=false,aim={x:360,y:500},shot=null,nextColor=0,previewColor=1,sound=saved.sound,selectedPower=null,powers=saved.powers,missesSinceDrop=0,boardYOffset=0,rowAnimating=false,bestScores=saved.bestScores,daily=saved.daily,mapMode='destination';
   function byId(id){return document.getElementById(id)}
   function loadProgress(){try{const p=JSON.parse(localStorage.getItem('horseShoePopProgress')||'{}');return{level:Math.min(100,Math.max(1,p.level||1)),score:p.score||0,coins:p.coins||0,stars:p.stars||0,completed:p.completed||{},earned:p.earned||[],powers:{rainbow:p.powers?.rainbow??2,hammer:p.powers?.hammer??2},stats:{drops:p.stats?.drops||0,powers:p.stats?.powers||0,maxCombo:p.stats?.maxCombo||0},bestScores:p.bestScores||{},daily:{last:p.daily?.last||'',streak:p.daily?.streak||0},sound:p.sound!==false}}catch{return{level:1,score:0,coins:0,stars:0,completed:{},earned:[],powers:{rainbow:2,hammer:2},stats:{drops:0,powers:0,maxCombo:0},bestScores:{},daily:{last:'',streak:0},sound:true}}}
   function saveProgress(){localStorage.setItem('horseShoePopProgress',JSON.stringify({level,score,coins,stars,completed,earned:[...earned],powers,stats,bestScores,daily,sound,lastPlayed:new Date().toISOString()}))}
@@ -52,8 +70,9 @@
   function clearSession(){localStorage.removeItem('horseShoePopSession')}
   function restoreSession(){const session=loadSession();if(!session||session.level!==level||!Array.isArray(session.board)||!session.board.length)return false;board=session.board;combo=session.combo||0;levelScore=session.levelScore||0;levelDropped=session.levelDropped||0;shots=session.shots??levelConfig().shots;nextColor=session.nextColor??randomBoardColor();previewColor=session.previewColor??randomBoardColor();missesSinceDrop=session.missesSinceDrop||0;selectedPower=session.selectedPower||null;shot=null;fallingPieces=[];boardYOffset=0;rowAnimating=false;return true}
   function grantDailyReward(){const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`;if(daily.last===today)return'';const previous=daily.last?new Date(`${daily.last}T00:00:00`):null,diff=previous?Math.round((new Date(`${today}T00:00:00`)-previous)/86400000):99;daily.streak=diff===1?daily.streak+1:1;daily.last=today;const reward=5+Math.min(10,daily.streak);coins+=reward;let bonus='';if(daily.streak%3===0){powers.rainbow++;bonus=' + Rainbow Shoe'}saveProgress();return `Daily Trail Reward • ${reward} coins${bonus} • ${daily.streak}-day streak`}
-  function levelConfig(){const chapter=Math.min(9,Math.floor((level-1)/10)),step=(level-1)%10,boss=step===9;return{chapter,step,boss,type:boss?4:step%5,goal:(650+level*125)*(boss?1.45:1),dropGoal:4+Math.floor(level/6)+(boss?5:0),comboGoal:2+Math.floor(level/18)+(boss?1:0),rows:boss?8:Math.min(4+Math.floor(level/12),7),palette:Math.min(3+Math.floor((level-1)/7),7),shots:boss?Math.max(5,9-Math.floor(level/20)):Math.max(6,12-Math.floor(level/14)),fill:boss?.98:Math.min(.95,.82+level*.0015),rowDropEvery:level<4?0:boss?3:level<25?5:level<60?4:3}}
-  function setup(allowResume=false){if(allowResume&&restoreSession()){updateUI();return true}board=[];fallingPieces=[];combo=0;levelScore=0;levelDropped=0;missesSinceDrop=0;boardYOffset=0;rowAnimating=false;selectedPower=null;const cfg=levelConfig();for(let r=0;r<cfg.rows;r++){board[r]=[];for(let c=0;c<COLS-(r%2);c++){board[r][c]=Math.random()<cfg.fill?Math.floor(Math.random()*cfg.palette):null}}shots=cfg.shots;nextColor=randomBoardColor();previewColor=randomBoardColor();shot=null;updateUI();saveSession();return false}
+  function levelConfig(){const chapter=Math.min(9,Math.floor((level-1)/10)),step=(level-1)%10,boss=step===9,palette=Math.min(chapterPalettes[chapter].length,3+Math.floor(step/2));return{chapter,step,boss,type:boss?4:step%5,goal:(650+level*125)*(boss?1.45:1),dropGoal:4+Math.floor(level/6)+(boss?5:0),comboGoal:2+Math.floor(level/18)+(boss?1:0),rows:boss?8:Math.min(4+Math.floor(level/12),7),palette,shots:boss?Math.max(5,9-Math.floor(level/20)):Math.max(6,12-Math.floor(level/14)),fill:boss?.98:Math.min(.95,.82+level*.0015),rowDropEvery:level<4?0:boss?3:level<25?5:level<60?4:3}}
+  function activePalette(cfg=levelConfig()){return chapterPalettes[cfg.chapter].slice(0,cfg.palette)}
+  function setup(allowResume=false){if(allowResume&&restoreSession()){updateUI();return true}board=[];fallingPieces=[];combo=0;levelScore=0;levelDropped=0;missesSinceDrop=0;boardYOffset=0;rowAnimating=false;selectedPower=null;const cfg=levelConfig(),palette=activePalette(cfg);for(let r=0;r<cfg.rows;r++){board[r]=[];for(let c=0;c<COLS-(r%2);c++){board[r][c]=Math.random()<cfg.fill?palette[Math.floor(Math.random()*palette.length)]:null}}shots=cfg.shots;nextColor=randomBoardColor();previewColor=randomBoardColor();shot=null;updateUI();saveSession();return false}
   function randomBoardColor(){const present=[...new Set(board.flat().filter(Number.isInteger))];return present.length?present[Math.floor(Math.random()*present.length)]:Math.floor(Math.random()*colors.length)}
   function pos(r,c){return{x:R+GAP+c*(R*2+GAP)+(r%2)*(R+GAP/2),y:TOP+r*ROW_H+boardYOffset}}
   function cellFrom(x,y){const r=Math.max(0,Math.round((y-TOP)/ROW_H)),offset=(r%2)*(R+GAP/2),c=Math.max(0,Math.min(COLS-1-(r%2),Math.round((x-R-GAP-offset)/(R*2+GAP))));return{r,c}}
@@ -77,7 +96,7 @@
   function resolveAfterLand(){updateUI();if(missionComplete())finish(true);else if(shots<=0||board.length*ROW_H+TOP>canvas.height-180)finish(false);else{saveProgress();saveSession()}}
   function dropPressureRow(done){
     rowAnimating=true;
-    const cfg=levelConfig(),fresh=Array.from({length:COLS},()=>Math.floor(Math.random()*cfg.palette)),shifted=[fresh];
+    const cfg=levelConfig(),palette=activePalette(cfg),fresh=Array.from({length:COLS},()=>palette[Math.floor(Math.random()*palette.length)]),shifted=[fresh];
     board.forEach((row,index)=>{const expected=COLS-((index+1)%2),copy=row.slice(0,expected);while(copy.length<expected)copy.push(null);shifted.push(copy)});
     board=shifted;boardYOffset=-ROW_H;showPrize('Trail pressure! A new horseshoe row is dropping in.');soundCue('row');
     const began=performance.now(),duration=340;function step(now){const t=Math.min(1,(now-began)/duration);boardYOffset=-ROW_H*(1-(1-Math.pow(1-t,3)));if(t<1)requestAnimationFrame(step);else{boardYOffset=0;rowAnimating=false;soundCue('thud');done()}}requestAnimationFrame(step)
@@ -89,44 +108,61 @@
   function trim(){while(board.length&&board[board.length-1].every(v=>v==null))board.pop()}
   function missionText(cfg=levelConfig()){const goal=cfg.type===0?'Clear every bubble':cfg.type===1?`Earn ${Math.round(cfg.goal).toLocaleString()} points`:cfg.type===2?`Drop ${cfg.dropGoal} loose bubbles`:cfg.type===3?`Reach a ×${cfg.comboGoal} combo`:`Fill the feed wagon • ${Math.round(cfg.goal).toLocaleString()} points`;return cfg.boss?`CHAMPIONSHIP • ${goal}`:goal}
   function challengeReward(cfg=levelConfig()){return cfg.boss?'Championship reward: 3 stars + bonus Conservation Coins':'Reward: up to 3 Heritage Stars'}
-  function renderTrailMap(required=false){
-    const cfg=levelConfig(),story=trailStories[cfg.chapter],levelTopic=chapterLevelTopics[cfg.chapter][cfg.step];
-    byId('trailMapTitle').textContent=chapters[cfg.chapter];
-    byId('trailMapProgress').textContent=`Chapter ${cfg.chapter+1} of 10 • Stage ${cfg.step+1} of 10 • Level ${level} of 100`;
+  function renderTrailMap(required=false,mode=mapMode){
+    mapMode=mode;
+    const cfg=levelConfig(),story=trailStories[cfg.chapter],levelTopic=chapterLevelTopics[cfg.chapter][cfg.step],stage=document.querySelector('.island-map-stage'),isDestination=mapMode==='destination';
+    stage.classList.toggle('destination-mode',isDestination);
+    stage.style.setProperty('--destination-map',`url('assets/destinations/${destinationMaps[cfg.chapter]}')`);
+    byId('trailMapTitle').textContent=isDestination?chapters[cfg.chapter]:'Puerto Rico Heritage Trail';
+    byId('trailMapProgress').textContent=isDestination?`Destination ${cfg.chapter+1} of 10 • Game ${cfg.step+1} of 10`:`Island journey • ${cfg.chapter+1} of 10 destinations reached`;
     byId('trailPlaceLabel').textContent=chapterPlaces[cfg.chapter];
     byId('trailStoryLabel').textContent=cfg.boss?'Why this championship is here':'Why this stop is on the map';
     byId('trailStoryTitle').textContent=levelTopic;
     byId('trailStoryText').textContent=`${story[1]} Game ${cfg.step+1} of this destination explores “${levelTopic}.”`;
     byId('trailChallengeLabel').textContent=cfg.boss?'Super-hard championship challenge':'Next challenge';
     byId('trailChallengeText').textContent=missionText(cfg);
-    const justUnlocked=(level-1)%7===0&&cfg.palette>3?` • New bubble topic: ${tileNames[cfg.palette-1]}`:'';
+    const palette=activePalette(cfg),justUnlocked=cfg.step>0&&cfg.step%2===0&&cfg.palette>3?` • New bubble topic: ${tileNames[palette[palette.length-1]]}`:'';
     const pressure=cfg.rowDropEvery?` • New row after ${cfg.rowDropEvery} missed shots`:'';
     byId('trailChallengeReward').textContent=challengeReward(cfg)+justUnlocked+pressure;
-    byId('rideTrailBtn').textContent=level===100&&completed[100]?'Ride Level 100 Again':`Ride to Level ${level}`;
+    byId('rideTrailBtn').textContent=level===100&&completed[100]?'Ride Level 100 Again':`Play Game ${cfg.step+1} • Level ${level}`;
     byId('closeTrailMap').hidden=required;
     const highestCompleted=Math.max(0,...Object.keys(completed).map(Number)),unlockedLevel=Math.min(100,Math.max(level,highestCompleted+1)),unlockedChapter=Math.floor((unlockedLevel-1)/10);
-    ui.trailStops.innerHTML=chapters.map((name,i)=>{const start=i*10+1,isDone=Array.from({length:10},(_,step)=>Boolean(completed[start+step])).every(Boolean),isCurrent=i===cfg.chapter,isLocked=i>unlockedChapter,target=isCurrent?level:start;return `<button class="trail-stop ${isDone?'completed':''} ${isCurrent?'current':''} ${isLocked?'locked':''}" data-level="${target}" ${isLocked?'disabled':''} title="${name} — ${chapterPlaces[i]}" aria-label="Chapter ${i+1}: ${name}${isDone?', completed':''}${isCurrent?', current chapter':''}">${isDone?'★':i+1}</button>`}).join('');
-    ui.trailStops.querySelectorAll('button:not(:disabled)').forEach(button=>button.onclick=()=>{level=Number(button.dataset.level);saveProgress();renderTrailMap(required);updateUI()});
+    if(isDestination){
+      const start=cfg.chapter*10+1,positions=destinationStops[cfg.chapter];
+      ui.trailStops.setAttribute('aria-label',`${chapters[cfg.chapter]} game trail`);
+      ui.trailStops.innerHTML=Array.from({length:10},(_,i)=>{const target=start+i,isDone=Boolean(completed[target]),isCurrent=target===level,isLocked=target>unlockedLevel,[left,top]=positions[i];return `<button class="trail-stop ${isDone?'completed':''} ${isCurrent?'current':''} ${isLocked?'locked':''}" style="left:${left}%;top:${top}%" data-level="${target}" ${isLocked?'disabled':''} title="Game ${i+1}: ${chapterLevelTopics[cfg.chapter][i]}" aria-label="Game ${i+1}: ${chapterLevelTopics[cfg.chapter][i]}${isDone?', completed':''}${isCurrent?', current game':''}">${isDone?'★':i+1}</button>`}).join('');
+      ui.trailStops.querySelectorAll('button:not(:disabled)').forEach(button=>button.onclick=()=>{level=Number(button.dataset.level);saveProgress();renderTrailMap(required,'destination');updateUI()});
+    }else{
+      ui.trailStops.setAttribute('aria-label','Island destination stops');
+      ui.trailStops.innerHTML=chapters.map((name,i)=>{const start=i*10+1,isDone=Array.from({length:10},(_,step)=>Boolean(completed[start+step])).every(Boolean),isCurrent=i===cfg.chapter,isLocked=i>unlockedChapter,target=isCurrent?level:Math.min(start+9,Math.max(start,highestCompleted+1));return `<button class="trail-stop ${isDone?'completed':''} ${isCurrent?'current':''} ${isLocked?'locked':''}" data-level="${target}" ${isLocked?'disabled':''} title="${name} — ${chapterPlaces[i]}" aria-label="Destination ${i+1}: ${name}${isDone?', completed':''}${isCurrent?', current destination':''}">${isDone?'★':i+1}</button>`}).join('');
+      ui.trailStops.querySelectorAll('button:not(:disabled)').forEach(button=>button.onclick=()=>{level=Number(button.dataset.level);saveProgress();renderTrailMap(required,'destination');updateUI()});
+    }
+    byId('islandOverviewBtn').classList.toggle('active',!isDestination);
+    byId('destinationMapBtn').classList.toggle('active',isDestination);
+    byId('bubbleCollection').innerHTML=tileSources.map((source,i)=>{const unlocked=level>=bubbleUnlockLevels[i];return `<figure class="bubble-collect-item ${unlocked?'unlocked':'locked'}"><img src="assets/bubbles/${source}.png" alt="${tileNames[i]}"><figcaption>${unlocked?tileNames[i]:`Level ${bubbleUnlockLevels[i]}`}</figcaption></figure>`}).join('');
   }
-  function openTrailMap(required=false){
+  function openTrailMap(required=false,mode='destination'){
     ui.trailMap.dataset.resume=!required&&active?'1':'0';
+    ui.trailMap.dataset.required=required?'1':'0';
     active=false;
-    renderTrailMap(required);
+    renderTrailMap(required,mode);
     ui.trailMap.classList.add('open');
   }
   function closeTrailMap(resume=false){ui.trailMap.classList.remove('open');if(resume)active=true;updateUI()}
   function levelStars(){const cfg=levelConfig(),base=levelScore>=cfg.goal?1:0,skill=levelDropped>=cfg.dropGoal||stats.maxCombo>=cfg.comboGoal*3?1:0,finish=board.flat().filter(Number.isInteger).length===0?1:0;return Math.min(3,base+skill+finish)}
   function updateUI(){const cfg=levelConfig(),s=levelStars(),pressure=cfg.rowDropEvery?` • New row in ${cfg.rowDropEvery-missesSinceDrop} misses`:'';ui.level.textContent=`${level}/100`;ui.score.textContent=score.toLocaleString();ui.coins.textContent=coins;ui.combo.textContent=`×${1+Math.floor(combo/3)}`;ui.shots.textContent=shots;ui.rainbow.textContent=powers.rainbow;ui.hammer.textContent=powers.hammer;ui.chapter.textContent=`Chapter ${cfg.chapter+1} • ${chapters[cfg.chapter]}`;ui.mission.textContent=missionText(cfg)+pressure;ui.starFill.style.width=`${Math.min(100,levelScore/cfg.goal*100)}%`;ui.starLabel.textContent=`${s} / 3 stars`;['rainbow','hammer'].forEach(name=>{const button=byId(name+'Power');button.disabled=!powers[name]||!active||rowAnimating;button.classList.toggle('selected',selectedPower===name)})}
   function checkAchievements(){const tests={first_ride:Object.keys(completed).length>=1,star_student:stars>=15,trail_master:Object.keys(completed).length>=10,combo_caballero:stats.maxCombo>=6,gravity_rider:stats.drops>=25,coin_keeper:coins>=100,power_legacy:stats.powers>=10,ppr_champion:Object.keys(completed).length>=100};achievementDefs.forEach(([id,name])=>{if(tests[id]&&!earned.has(id)){earned.add(id);coins+=10;showPrize(`Achievement unlocked: ${name} • +10 coins`)}})}
-  function finish(win){active=false;clearSession();let earnedStars=0;if(win){earnedStars=Math.max(1,levelStars());const old=completed[level]||0;completed[level]=Math.max(old,earnedStars);stars+=Math.max(0,earnedStars-old);coins+=earnedStars*3;bestScores[level]=Math.max(bestScores[level]||0,levelScore);checkAchievements();saveProgress();soundCue('win')}byId('resultEyebrow').textContent=win?'Mission Complete':'Trail Paused';byId('resultTitle').textContent=win?(level===100?'PPR Legacy Champion!':level%10===0?'New Island Trail Unlocked!':'Heritage Trail Restored!'):'Give It Another Ride';byId('resultText').textContent=win?`Level ${level} complete • ${earnedStars*3} prize coins earned. You now have ${stars} heritage stars.${level%10===0&&level<100?' The next island destination is now open.':''}`:'Match groups of three before the bubbles reach the rider. Your overall score and collected rewards are safe.';ui.resultStars.textContent=win?'★'.repeat(earnedStars)+'☆'.repeat(3-earnedStars):'☆☆☆';byId('nextBtn').textContent=win?'View Heritage Map':'Try This Level Again';ui.fact.textContent=facts[(level)%facts.length];ui.result.classList.add('open');ui.result.dataset.win=win?'1':'0'}
+  function finish(win){active=false;clearSession();let earnedStars=0;if(win){earnedStars=Math.max(1,levelStars());const old=completed[level]||0;completed[level]=Math.max(old,earnedStars);stars+=Math.max(0,earnedStars-old);coins+=earnedStars*3;bestScores[level]=Math.max(bestScores[level]||0,levelScore);checkAchievements();saveProgress();soundCue('win')}const destinationComplete=level%10===0;byId('resultEyebrow').textContent=win?'Mission Complete':'Trail Paused';byId('resultTitle').textContent=win?(level===100?'PPR Legacy Champion!':destinationComplete?'New Island Trail Unlocked!':'Heritage Trail Restored!'):'Give It Another Ride';byId('resultText').textContent=win?`Level ${level} complete • ${earnedStars*3} prize coins earned. You now have ${stars} heritage stars.${destinationComplete&&level<100?' The next island destination is now open.':''}`:'Match groups of three before the bubbles reach the rider. Your overall score and collected rewards are safe.';ui.resultStars.textContent=win?'★'.repeat(earnedStars)+'☆'.repeat(3-earnedStars):'☆☆☆';byId('nextBtn').textContent=win?(destinationComplete?'Open Island Trail':'Continue Destination'):'Try This Level Again';ui.fact.textContent=facts[(level)%facts.length];ui.result.classList.add('open');ui.result.dataset.win=win?'1':'0';ui.result.dataset.destinationComplete=destinationComplete?'1':'0'}
   function tone(freq,duration,type='sine',gain=.04,delay=0){if(!sound)return;const A=window.AudioContext||window.webkitAudioContext;if(!A)return;const ac=tone.ac||(tone.ac=new A()),o=ac.createOscillator(),g=ac.createGain(),start=ac.currentTime+delay;o.frequency.value=freq;o.type=type;g.gain.setValueAtTime(gain,start);g.gain.exponentialRampToValueAtTime(.001,start+duration);o.connect(g).connect(ac.destination);o.start(start);o.stop(start+duration)}
   function soundCue(name){const cues={fire:[[430,.05,'triangle',.035,0],[610,.06,'sine',.025,.035]],bank:[[235,.035,'square',.018,0]],settle:[[310,.045,'triangle',.025,0]],match:[[620,.08,'sine',.04,0],[820,.11,'sine',.04,.075]],miss:[[170,.12,'triangle',.035,0]],fall:[[360,.08,'triangle',.03,0],[260,.1,'triangle',.03,.07],[170,.13,'triangle',.03,.15]],power:[[190,.08,'square',.03,0],[440,.15,'triangle',.04,.08]],prize:[[520,.08,'sine',.04,0],[660,.08,'sine',.04,.09],[880,.16,'sine',.04,.18]],row:[[330,.08,'triangle',.03,0],[260,.08,'triangle',.03,.1],[210,.12,'triangle',.04,.2]],thud:[[105,.18,'square',.045,0]],win:[[520,.1,'sine',.04,0],[660,.1,'sine',.04,.1],[880,.2,'sine',.045,.2]],start:[[330,.08,'sine',.03,0],[495,.12,'sine',.035,.08]]};(cues[name]||[]).forEach(args=>tone(...args))}
   function choosePower(name){if(!active||shot||!powers[name])return;selectedPower=selectedPower===name?null:name;updateUI();saveSession();showPrize(selectedPower?`${name==='rainbow'?'Rainbow Shoe':'Ranch Hammer'} ready — aim and fire`:'Power-up returned')}
   function renderAchievements(){ui.achievementList.innerHTML=achievementDefs.map(([id,name,desc])=>`<article class="achievement ${earned.has(id)?'earned':''}"><span>${earned.has(id)?'★':'☆'}</span><div><b>${name}</b><small>${desc}</small></div><em>${earned.has(id)?'Earned':'+10 coins'}</em></article>`).join('')}
   byId('startBtn').onclick=()=>{ui.start.classList.remove('open');active=true;updateUI();soundCue('start')};
-  byId('nextBtn').onclick=()=>{const won=ui.result.dataset.win==='1';ui.result.classList.remove('open');if(won){if(level<100)level++;saveProgress();openTrailMap(true)}else{setup();active=true;updateUI()}};
+  byId('nextBtn').onclick=()=>{const won=ui.result.dataset.win==='1',destinationComplete=ui.result.dataset.destinationComplete==='1';ui.result.classList.remove('open');if(won){if(level<100)level++;saveProgress();openTrailMap(true,destinationComplete?'island':'destination')}else{setup();active=true;updateUI()}};
   byId('rideTrailBtn').onclick=()=>{ui.start.classList.remove('open');closeTrailMap(false);setup(true);active=true;updateUI();soundCue('start')};
-  byId('trailBtn').onclick=()=>openTrailMap(false);
+  byId('trailBtn').onclick=()=>openTrailMap(false,'destination');
+  byId('islandOverviewBtn').onclick=()=>renderTrailMap(ui.trailMap.dataset.required==='1','island');
+  byId('destinationMapBtn').onclick=()=>renderTrailMap(ui.trailMap.dataset.required==='1','destination');
   byId('closeTrailMap').onclick=()=>closeTrailMap(ui.trailMap.dataset.resume==='1');
   byId('soundBtn').onclick=()=>{sound=!sound;byId('soundBtn').textContent=sound?'♪':'×';saveProgress()};byId('rainbowPower').onclick=()=>choosePower('rainbow');byId('hammerPower').onclick=()=>choosePower('hammer');byId('achievementBtn').onclick=()=>{renderAchievements();ui.achievements.classList.add('open')};byId('closeAchievements').onclick=()=>ui.achievements.classList.remove('open');
   canvas.addEventListener('mousemove',aimAt);canvas.addEventListener('touchmove',aimAt,{passive:true});canvas.addEventListener('click',fire);canvas.addEventListener('touchend',e=>{if(active&&!shot){const t=e.changedTouches[0],rect=canvas.getBoundingClientRect();aim={x:(t.clientX-rect.left)*canvas.width/rect.width,y:(t.clientY-rect.top)*canvas.height/rect.height};fire({preventDefault(){},clientX:t.clientX,clientY:t.clientY})}},{passive:false});

@@ -4,6 +4,7 @@
 - Island-map source visual truth: `/workspace/scratch/c8cd18d15989/upload/08b986f3-02e3-4f56-89cc-a84ebdb77045.png`
 - Gameplay implementation screenshot: `/workspace/scratch/horseshoe-pop-gameplay-final.png`
 - Adventure-map screenshot: `/workspace/scratch/horseshoe-pop-island-trail-final.jpg`
+- Destination-map screenshot: `/workspace/scratch/horseshoe-pop-destination-map.png`
 - Side-by-side comparison: `/workspace/scratch/c8cd18d15989/games/horseshoe-pop/design-qa-comparison.jpg`
 - Island-map comparison: `/workspace/scratch/c8cd18d15989/games/horseshoe-pop/design-qa-map-comparison.jpg`
 - Browser viewport: 1363 × 936 CSS px at device scale 1
@@ -31,14 +32,19 @@ The launcher, bubbles, start medallion, map stops, lesson card, and challenge ca
 
 - Opened the heritage map from the header and verified 10 chapter stops with current and locked states.
 - Verified each island stop represents one 10-game chapter and later stops remain locked until the preceding chapter's ten levels are complete.
+- Verified the island serves as the destination overview and each destination opens a unique themed local map with its own ten selectable game stops.
+- Verified ordinary level completion returns to the current destination map, while Game 10 returns to the island overview and unlocks the next trail segment.
+- Verified the destination artwork remains confined to map screens; the approved launcher and main gameplay background stay unchanged.
 - Verified the map card explains why the current stop belongs in that location and shows the correct one of 100 chapter-specific story topics (tested: Level 3, `Ships, Horses, and Movement`).
 - Started Level 1 from the map and confirmed both the map and start overlay close correctly.
 - Fired a bubble, observed the shot complete, and verified the shot counter changed from 12 to 11 only after settling/scoring logic completed.
 - Reloaded after a shot and verified the unfinished board session recovered with Level 3, 11 shots, the same overall score, and a `Continue Ride` action.
 - Verified daily reward messaging and persistence of sound, coins, stars, power-ups, achievements, best scores, completed levels, and reward streak data.
 - Verified the mission label, power-up enabled state, 100-level counter, and map lesson/challenge content.
+- Verified all 11 bubble topics load from the approved asset artwork, with the Puerto Rican flag, coquí, coffee berries, and heritage medallion joining the seven original farm bubbles as progressive unlocks.
 - JavaScript syntax check passed.
 - Browser console contained no application errors; unrelated browser-extension metadata errors were excluded.
+- Live browser navigation passed: Destination Trail showed 10 local game stops with completed/current/locked states; Island Overview showed 10 destinations; selecting the current island destination returned to its local map.
 
 ## Findings
 
