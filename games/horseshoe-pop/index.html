@@ -17,6 +17,7 @@
         <h1>Horse Shoe <span>Pop</span></h1>
       </div>
       <button id="soundBtn" class="icon-btn" aria-label="Toggle sound" title="Sound">♪</button>
+      <button id="achievementBtn" class="icon-btn achievement-btn" aria-label="Open achievements" title="Achievements">★</button>
     </header>
 
     <section class="mission-bar" aria-label="Game status">
@@ -25,6 +26,12 @@
       <div><small>Coins</small><strong id="coinLabel">0</strong></div>
       <div><small>Combo</small><strong id="comboLabel">×1</strong></div>
       <div><small>Shots</small><strong id="shotsLabel">8</strong></div>
+    </section>
+
+    <section class="trail-progress" aria-label="Heritage trail progress">
+      <div><small id="chapterLabel">Chapter 1 • Hacienda Trail</small><b id="missionLabel">Clear the horseshoes</b></div>
+      <div class="star-meter" aria-label="Level star progress"><span id="starFill"></span></div>
+      <strong id="starLabel">0 / 3 stars</strong>
     </section>
 
     <section class="play-card">
@@ -54,7 +61,14 @@
         <p class="eyebrow" id="resultEyebrow">Mission Complete</p>
         <h2 id="resultTitle">Trail Restored!</h2>
         <p id="resultText"></p>
+        <div id="resultStars" class="result-stars" aria-label="Stars earned">☆☆☆</div>
         <button id="nextBtn" class="primary-btn">Continue</button>
+      </div>
+      <div id="achievementPanel" class="overlay achievement-panel" role="dialog" aria-modal="true" aria-labelledby="achievementTitle">
+        <p class="eyebrow">Legacy Journal</p>
+        <h2 id="achievementTitle">Achievements</h2>
+        <div id="achievementList" class="achievement-list"></div>
+        <button id="closeAchievements" class="primary-btn">Return to the Trail</button>
       </div>
     </section>
 
