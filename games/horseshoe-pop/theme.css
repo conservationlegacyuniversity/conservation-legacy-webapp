@@ -12,6 +12,7 @@ body{background:radial-gradient(circle at 50% 0,#51301755,transparent 42%),repea
 .landscape .sun,.landscape .mountains,.landscape .hacienda,.landscape .palm{display:none}
 .island-ribbon{top:49%;background:linear-gradient(#4e2c13e8,#251208e8);border:1px solid #d4a14e;color:#f5d697;box-shadow:0 0 0 3px #1b0e08aa,0 5px 16px #000}
 .board-vignette{box-shadow:inset 0 0 75px #190d06aa,inset 0 -110px 90px #12090599}
+#gameCanvas{z-index:2}.board-vignette{z-index:1}
 .power-btn{border:1px solid #bd8038;background:linear-gradient(#593419ee,#281409ee);color:#f7dda4;border-radius:6px;box-shadow:inset 0 1px #e1b86655,0 4px 0 #100804,0 8px 16px #0008}
 .power-btn span{background:radial-gradient(circle at 35% 30%,#ffe08b,#b26d14 65%,#5b3109);border:1px solid #f1c36a;color:#2b1407}
 .power-btn.selected{background:linear-gradient(#6c8d23,#354b11);color:#fff5c5;border-color:#e5ba58}
