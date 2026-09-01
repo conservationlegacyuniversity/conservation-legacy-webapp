@@ -54,6 +54,7 @@
         <p class="eyebrow">A Conservation Legacy Game</p>
         <h2>Restore the Heritage Trail</h2>
         <p>Match three or more horseshoes. Clear the trail, earn Conservation Coins, and discover the living story of Puerto Rico's native horse.</p>
+        <p id="dailyRewardText" class="welcome-reward" hidden></p>
         <button id="startBtn" class="primary-btn">Begin the Ride</button>
       </div>
       <div id="resultPanel" class="overlay">
@@ -71,10 +72,15 @@
       </div>
       <div id="trailMapPanel" class="overlay trail-map-panel" role="dialog" aria-modal="true" aria-labelledby="trailMapTitle">
         <div class="trail-map-scroll">
-          <p class="eyebrow">Puerto Rico Heritage Trail</p>
-          <h2 id="trailMapTitle">Hacienda Beginnings</h2>
-          <p id="trailMapProgress" class="trail-map-progress">Chapter 1 of 10</p>
-          <div id="trailStops" class="trail-stops" aria-label="Chapter level stops"></div>
+          <div class="island-map-stage">
+            <div class="island-map-heading">
+              <p class="eyebrow">Puerto Rico Heritage Trail</p>
+              <h2 id="trailMapTitle">Harbor Beginnings</h2>
+              <p id="trailMapProgress" class="trail-map-progress">Chapter 1 of 10</p>
+            </div>
+            <div id="trailStops" class="trail-stops" aria-label="Island chapter stops"></div>
+            <p id="trailPlaceLabel" class="trail-place-label">Historic harbor and town</p>
+          </div>
           <article class="heritage-lesson">
             <img id="trailHorse" src="assets/brisa-medallion.webp" alt="Pure Puerto Rican Paso Fino trail guide">
             <div>

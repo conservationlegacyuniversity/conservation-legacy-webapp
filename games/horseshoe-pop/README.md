@@ -2,7 +2,11 @@
 
 A responsive browser game for Conservation Legacy centered on the Pure Puerto Rican Paso Fino, Puerto Rico, and breed conservation.
 
-The current build includes 100 levels across 10 heritage chapters, a Puerto Rico adventure map, chapter lessons, achievements, championship challenges, bubble-topic unlocks, pressure rows, combos, power-ups, prizes, animated bubble settling, bank shots, gravity drops, sound effects, and local progress saves.
+The current build includes 100 levels across 10 island destinations. Each destination contains 10 games; completing all ten opens the next golden trail segment. The selected Puerto Rico adventure map includes place-based heritage lessons, achievements, championship challenges, bubble-topic unlocks, pressure rows, combos, power-ups, prizes, animated bubble settling, bank shots, gravity drops, and sound effects.
+
+Every destination explains why it appears in that part of the island, and its ten games unfold ten related story beats covering ports, towns, plantations and their full labor history, rainforest and dryland terrain, coastal ranches, mountain communities, breeding farms, coffee haciendas, registries, and conservation stewardship.
+
+Return players can continue the exact unfinished board. The local save remembers level and chapter progress, board layout, shots, level score, combo, next bubbles, selected power-up, coins, stars, power inventory, achievements, completed levels, best scores, sound preference, and daily reward streak.
 
 ## Play locally
 

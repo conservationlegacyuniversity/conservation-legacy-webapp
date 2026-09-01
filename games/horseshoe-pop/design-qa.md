@@ -1,9 +1,11 @@
 # Horse Shoe Pop Design QA
 
 - Source visual truth: `/workspace/scratch/c8cd18d15989/upload/1804bd0e-6e8d-4864-93a6-7544178d044a.png`
+- Island-map source visual truth: `/workspace/scratch/c8cd18d15989/upload/08b986f3-02e3-4f56-89cc-a84ebdb77045.png`
 - Gameplay implementation screenshot: `/workspace/scratch/horseshoe-pop-gameplay-final.png`
-- Adventure-map screenshot: `/workspace/scratch/horseshoe-pop-map-final.png`
+- Adventure-map screenshot: `/workspace/scratch/horseshoe-pop-island-trail-final.jpg`
 - Side-by-side comparison: `/workspace/scratch/c8cd18d15989/games/horseshoe-pop/design-qa-comparison.jpg`
+- Island-map comparison: `/workspace/scratch/c8cd18d15989/games/horseshoe-pop/design-qa-map-comparison.jpg`
 - Browser viewport: 1363 × 936 CSS px at device scale 1
 - Source pixels: 1024 × 1536; implementation capture: 1348 × 926; map capture: 1348 × 926
 - Normalization: source and implementation were placed on one 1372 × 936 comparison canvas at native aspect ratio, scaled to fit without stretching.
@@ -11,7 +13,7 @@
 
 ## Full-view comparison evidence
 
-The combined comparison confirms that the game uses the selected walnut, iron, antique-gold, and glass-bubble art direction. The launcher is an isolated upright horseshoe, the current and next bubbles remain distinct, the trajectory is readable, and the supplied ranch art supports rather than replaces the playfield. The new map retains the same visual system instead of introducing a separate generic mobile-game style.
+The combined comparisons confirm that the game uses the selected walnut, iron, antique-gold, and glass-bubble art direction. The launcher is an isolated upright horseshoe, the current and next bubbles remain distinct, the trajectory is readable, and the supplied ranch art supports rather than replaces the playfield. The selected island illustration is preserved as the map background, with ten functional chapter markers following its golden route.
 
 ## Focused region comparison evidence
 
@@ -28,8 +30,12 @@ The launcher, bubbles, start medallion, map stops, lesson card, and challenge ca
 ## Interaction verification
 
 - Opened the heritage map from the header and verified 10 chapter stops with current and locked states.
+- Verified each island stop represents one 10-game chapter and later stops remain locked until the preceding chapter's ten levels are complete.
+- Verified the map card explains why the current stop belongs in that location and shows the correct one of 100 chapter-specific story topics (tested: Level 3, `Ships, Horses, and Movement`).
 - Started Level 1 from the map and confirmed both the map and start overlay close correctly.
 - Fired a bubble, observed the shot complete, and verified the shot counter changed from 12 to 11 only after settling/scoring logic completed.
+- Reloaded after a shot and verified the unfinished board session recovered with Level 3, 11 shots, the same overall score, and a `Continue Ride` action.
+- Verified daily reward messaging and persistence of sound, coins, stars, power-ups, achievements, best scores, completed levels, and reward streak data.
 - Verified the mission label, power-up enabled state, 100-level counter, and map lesson/challenge content.
 - JavaScript syntax check passed.
 - Browser console contained no application errors; unrelated browser-extension metadata errors were excluded.
@@ -44,6 +50,8 @@ No actionable P0, P1, or P2 fidelity or usability issues remain in the tested st
 - Earlier P1: opening the map from the start screen and choosing a level left the start overlay open. Fixed by closing the start overlay when the map CTA begins a level; the revised interaction test confirms both overlays close.
 - Earlier P2: level progression lacked a return-to-map learning loop. Fixed with a chapter map, lessons, challenge preview, rewards, and current/completed/locked stops.
 - Earlier P2: fired pieces scored immediately. Fixed with a 165 ms ease-out settle animation before land, match, drop, and score resolution.
+- Earlier P1: the map read as a generic grid rather than an island journey. Fixed by using the user-selected Puerto Rico adventure painting, positioning ten chapter markers along its route, and adding place-specific chapter copy.
+- Earlier P1: only overall progress persisted. Fixed with an active-session save that restores the exact board, shots, next bubbles, combo, mission progress, and selected power-up, alongside permanent rewards and achievements.
 
 ## Residual test gap
 
