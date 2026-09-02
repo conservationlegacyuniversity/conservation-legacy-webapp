@@ -35,6 +35,10 @@
       <strong id="starLabel">0 / 3 stars</strong>
     </section>
 
+    <button id="impactBtn" class="impact-ribbon" type="button" aria-label="Open Legacy Impact Center">
+      <span>Community Care</span><b id="impactGoalMini">Hay &amp; Forage</b><strong><span id="legacyPointLabel">0</span> LP <i aria-hidden="true">›</i></strong>
+    </button>
+
     <section class="play-card">
       <div class="landscape" aria-hidden="true">
         <div class="sun"></div><div class="mountains back"></div><div class="mountains front"></div>
@@ -69,6 +73,28 @@
         <h2 id="achievementTitle">Achievements</h2>
         <div id="achievementList" class="achievement-list"></div>
         <button id="closeAchievements" class="primary-btn">Return to the Trail</button>
+      </div>
+      <div id="impactPanel" class="overlay impact-panel" role="dialog" aria-modal="true" aria-labelledby="impactTitle">
+        <div class="impact-scroll">
+          <p class="eyebrow">Play With Purpose</p>
+          <h2 id="impactTitle">Legacy Impact Center</h2>
+          <article class="community-project">
+            <div class="impact-project-heading"><span>Community Project</span><em id="impactProjectStatus">Planning</em></div>
+            <h3 id="impactProjectTitle">Hay &amp; Forage Assistance</h3>
+            <p id="impactProjectBeneficiary"></p>
+            <strong id="impactProjectTarget"></strong>
+            <div id="verifiedImpactState" class="verified-impact-state">No verified funds reported yet</div>
+          </article>
+          <article class="player-care-trail">
+            <small>Your Care Trail • Chapter <span id="impactChapter">1</span></small>
+            <div class="care-goal-title"><span id="impactGoalIcon" aria-hidden="true">▤</span><div><h3 id="impactGoalTitle">Hay Helper</h3><p id="impactCareType">Hay &amp; forage</p></div></div>
+            <div class="impact-meter" role="progressbar" aria-label="Legacy Point progress" aria-valuemin="0" aria-valuemax="250" aria-valuenow="0"><span id="impactFill"></span></div>
+            <p><b id="impactProgressText">0 / 250 Legacy Points</b><span id="impactGoalState">Play levels in this destination to earn this care badge.</span></p>
+          </article>
+          <section class="care-pathways" aria-label="Care support pathways"><small>What verified game proceeds can support</small><div id="carePathwayList"></div></section>
+          <aside class="impact-truth"><b>Our transparency promise</b><p id="impactDisclosure"></p><span>Future ledger entries will show the project, date, amount, recipient or program, and available proof.</span></aside>
+          <button id="closeImpact" class="primary-btn" type="button">Return to the Game</button>
+        </div>
       </div>
       <div id="trailMapPanel" class="overlay trail-map-panel" role="dialog" aria-modal="true" aria-labelledby="trailMapTitle">
         <div class="trail-map-scroll">
@@ -118,6 +144,7 @@
 
     <footer><span>Match 3+ horseshoes</span><span>•</span><span>Every play supports learning</span></footer>
   </main>
+  <script src="impact-config.js"></script>
   <script src="game.js"></script>
 </body>
 </html>

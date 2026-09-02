@@ -46,6 +46,8 @@ The launcher, bubbles, start medallion, map stops, lesson card, and challenge ca
 - Browser console contained no application errors; unrelated browser-extension metadata errors were excluded.
 - Verified keyboard aiming and firing: Arrow Right changed aim, Space fired, the shot settled, shots changed from 12 to 11, and focus remained on the game canvas.
 - Verified keyboard overlay control: achievement and trail-map headings receive focus when opened; Escape closes either panel and restores focus to the originating control or game canvas.
+- Verified the Legacy Impact Center opens from its persistent care ribbon, focuses its dialog heading, displays the chapter care goal and zero-funds planning state, and closes with Escape while restoring focus.
+- Verified that Legacy Points, chapter care progress, and verified financial impact are labeled as separate measures; the interface never assigns a cash value to play or ad views.
 - Verified touch targets are at least 44px on the mobile breakpoint, safe-area insets are respected, and reduced-motion preferences shorten shot-settle and pressure-row animation.
 - Verified storage writes fail safely with an announced warning instead of interrupting the game loop.
 - Live browser navigation passed: Destination Trail showed 10 local game stops with completed/current/locked states; Island Overview showed 10 destinations; selecting the current island destination returned to its local map.
