@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#173d37">
+  <title>Horse Shoe Pop | Conservation Legacy</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="theme.css">
+</head>
+<body>
+  <main class="game-shell">
+    <header class="masthead">
+      <div class="brand-mark" aria-hidden="true">CL</div>
+      <div>
+        <p class="eyebrow">Conservation Legacy • Pure Puerto Rican Paso Fino</p>
+        <h1>Horse Shoe <span>Pop</span></h1>
+      </div>
+      <button id="trailBtn" class="icon-btn trail-btn" aria-label="Open heritage trail map" title="Heritage Trail">Map</button>
+      <button id="soundBtn" class="icon-btn" aria-label="Toggle sound" title="Sound">♪</button>
+      <button id="achievementBtn" class="icon-btn achievement-btn" aria-label="Open achievements" title="Achievements">★</button>
+    </header>
+
+    <section class="mission-bar" aria-label="Game status">
+      <div><small>Level</small><strong id="levelLabel">1</strong></div>
+      <div><small>Score</small><strong id="scoreLabel">0</strong></div>
+      <div><small>Coins</small><strong id="coinLabel">0</strong></div>
+      <div><small>Combo</small><strong id="comboLabel">×1</strong></div>
+      <div><small>Shots</small><strong id="shotsLabel">8</strong></div>
+    </section>
+
+    <section class="trail-progress" aria-label="Heritage trail progress">
+      <div><small id="chapterLabel">Chapter 1 • Hacienda Trail</small><b id="missionLabel">Clear the horseshoes</b></div>
+      <div class="star-meter" aria-label="Level star progress"><span id="starFill"></span></div>
+      <strong id="starLabel">0 / 3 stars</strong>
+    </section>
+
+    <button id="impactBtn" class="impact-ribbon" type="button" aria-label="Open Legacy Impact Center">
+      <span>Community Care</span><b id="impactGoalMini">Hay &amp; Forage</b><strong><span id="legacyPointLabel">0</span> LP <i aria-hidden="true">›</i></strong>
+    </button>
+
+    <section class="play-card">
+      <div class="landscape" aria-hidden="true">
+        <div class="sun"></div><div class="mountains back"></div><div class="mountains front"></div>
+        <div class="hacienda"></div><div class="palm palm-a"></div><div class="palm palm-b"></div>
+        <div class="island-ribbon">Heritage Trail • Puerto Rico</div>
+      </div>
+      <canvas id="gameCanvas" width="720" height="920" tabindex="0" role="application" aria-label="Horse Shoe Pop game board" aria-describedby="gameInstructions" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp Space Enter"></canvas>
+      <div class="board-vignette" aria-hidden="true"></div>
+      <div class="power-dock" aria-label="Power ups">
+        <button id="rainbowPower" class="power-btn" type="button"><span>✦</span><b>Rainbow Shoe</b><em id="rainbowCount">1</em></button>
+        <button id="hammerPower" class="power-btn" type="button"><span>♞</span><b>Ranch Hammer</b><em id="hammerCount">1</em></button>
+      </div>
+      <aside class="horse-guide" aria-label="Paso Fino trail guide"><img src="assets/brisa-mare-card.webp" alt="Brisa de la Finca, Pure Puerto Rican Paso Fino mare"><p><b>Brisa’s Trail</b><span>Build a ×2 combo to win a prize.</span></p></aside>
+      <div id="prizeToast" class="prize-toast" role="status" aria-live="polite"><img src="assets/pequeno-paso-foal-card.webp" alt="Pequeño Paso foal prize card"><span id="prizeMessage"></span></div>
+      <div id="startPanel" class="overlay open">
+        <div class="horse-medallion"><img src="assets/brisa-medallion.webp" alt="Brisa de la Finca, Pure Puerto Rican Paso Fino mare"></div>
+        <p class="eyebrow">A Conservation Legacy Game</p>
+        <h2>Restore the Heritage Trail</h2>
+        <p>Match three or more horseshoes. Clear the trail, earn Conservation Coins, and discover the living story of Puerto Rico's native horse.</p>
+        <p class="prize-tip"><b>Win more boosters:</b> earn 3 stars, build combo streaks, complete a destination, or return for daily rewards.</p>
+        <p id="dailyRewardText" class="welcome-reward" hidden></p>
+        <button id="startBtn" class="primary-btn">Begin the Ride</button>
+      </div>
+      <div id="resultPanel" class="overlay result-panel">
+        <div class="victory-burst" aria-hidden="true"></div>
+        <div class="victory-horse">
+          <img src="assets/brisa-medallion.webp" alt="Brisa de la Finca celebrating the completed trail">
+          <span>Trail Champion</span>
+        </div>
+        <p class="eyebrow" id="resultEyebrow">Mission Complete</p>
+        <h2 id="resultTitle">Trail Restored!</h2>
+        <p id="resultText"></p>
+        <div id="resultStars" class="result-stars" aria-label="Stars earned">☆☆☆</div>
+        <div class="victory-rewards" aria-label="Level prizes">
+          <article><span aria-hidden="true">●</span><b id="resultCoinReward">+3</b><small>Coins</small></article>
+          <article><span aria-hidden="true">✦</span><b id="resultPointReward">+24</b><small>Legacy Points</small></article>
+          <article id="resultBoosterCard"><span aria-hidden="true">◉</span><b id="resultBoosterReward">Rainbow Shoe</b><small>Booster Prize</small></article>
+        </div>
+        <button id="nextBtn" class="primary-btn">Continue</button>
+      </div>
+      <div id="achievementPanel" class="overlay achievement-panel" role="dialog" aria-modal="true" aria-labelledby="achievementTitle">
+        <p class="eyebrow">Legacy Journal</p>
+        <h2 id="achievementTitle">Achievements</h2>
+        <div id="achievementList" class="achievement-list"></div>
+        <button id="closeAchievements" class="primary-btn">Return to the Trail</button>
+      </div>
+      <div id="impactPanel" class="overlay impact-panel" role="dialog" aria-modal="true" aria-labelledby="impactTitle">
+        <div class="impact-scroll">
+          <p class="eyebrow">Play With Purpose</p>
+          <h2 id="impactTitle">Legacy Impact Center</h2>
+          <article class="community-project">
+            <div class="impact-project-heading"><span>Community Project</span><em id="impactProjectStatus">Planning</em></div>
+            <h3 id="impactProjectTitle">Hay &amp; Forage Assistance</h3>
+            <p id="impactProjectBeneficiary"></p>
+            <strong id="impactProjectTarget"></strong>
+            <div id="verifiedImpactState" class="verified-impact-state">No verified funds reported yet</div>
+          </article>
+          <article class="player-care-trail">
+            <small>Your Care Trail • Chapter <span id="impactChapter">1</span></small>
+            <div class="care-goal-title"><span id="impactGoalIcon" aria-hidden="true">▤</span><div><h3 id="impactGoalTitle">Hay Helper</h3><p id="impactCareType">Hay &amp; forage</p></div></div>
+            <div class="impact-meter" role="progressbar" aria-label="Legacy Point progress" aria-valuemin="0" aria-valuemax="250" aria-valuenow="0"><span id="impactFill"></span></div>
+            <p><b id="impactProgressText">0 / 250 Legacy Points</b><span id="impactGoalState">Play levels in this destination to earn this care badge.</span></p>
+          </article>
+          <section class="care-pathways" aria-label="Care support pathways"><small>What verified game proceeds can support</small><div id="carePathwayList"></div></section>
+          <aside class="impact-truth"><b>Our transparency promise</b><p id="impactDisclosure"></p><span>Future ledger entries will show the project, date, amount, recipient or program, and available proof.</span></aside>
+          <button id="closeImpact" class="primary-btn" type="button">Return to the Game</button>
+        </div>
+      </div>
+      <div id="trailMapPanel" class="overlay trail-map-panel" role="dialog" aria-modal="true" aria-labelledby="trailMapTitle">
+        <div class="trail-map-scroll">
+          <div class="island-map-stage">
+            <div class="island-map-heading">
+              <p class="eyebrow">Puerto Rico Heritage Trail</p>
+              <h2 id="trailMapTitle">Harbor Beginnings</h2>
+              <p id="trailMapProgress" class="trail-map-progress">Chapter 1 of 10</p>
+            </div>
+            <div id="trailStops" class="trail-stops" aria-label="Island chapter stops"></div>
+            <p id="trailPlaceLabel" class="trail-place-label">Historic harbor and town</p>
+            <div class="map-view-actions" aria-label="Map view">
+              <button id="islandOverviewBtn" class="map-view-btn" type="button">Island Overview</button>
+              <button id="destinationMapBtn" class="map-view-btn" type="button">Destination Trail</button>
+            </div>
+          </div>
+          <section class="bubble-collection" aria-label="Bubble collection">
+            <small>Bubble Collection • New topics unlock along the trail</small>
+            <div id="bubbleCollection"></div>
+          </section>
+          <article class="heritage-lesson">
+            <img id="trailHorse" src="assets/brisa-medallion.webp" alt="Pure Puerto Rican Paso Fino trail guide">
+            <div>
+              <small id="trailStoryLabel">Heritage lesson</small>
+              <h3 id="trailStoryTitle">Meet the Paso Fino</h3>
+              <p id="trailStoryText"></p>
+            </div>
+          </article>
+          <article class="trail-challenge">
+            <small id="trailChallengeLabel">Next challenge</small>
+            <strong id="trailChallengeText">Clear every bubble</strong>
+            <span id="trailChallengeReward">Reward: up to 3 Heritage Stars</span>
+          </article>
+          <button id="rideTrailBtn" class="primary-btn">Ride to Level 1</button>
+          <button id="closeTrailMap" class="map-close-btn" type="button">Return to current game</button>
+        </div>
+      </div>
+    </section>
+
+    <p id="gameInstructions" class="game-instructions">Aim with touch or mouse and release to shoot. Keyboard: Left and Right aim, Up centers, Space or Enter fires.</p>
+    <p id="gameStatus" class="sr-only" role="status" aria-live="polite"></p>
+
+    <aside class="story-card">
+      <div class="fact-icon" aria-hidden="true">✦</div>
+      <div><small>Heritage Note</small><p id="factText">The Pure Puerto Rican Paso Fino is treasured for its naturally smooth, four-beat gait.</p></div>
+    </aside>
+
+    <footer><span>Match 3+ horseshoes</span><span>•</span><span>Every play supports learning</span></footer>
+  </main>
+  <script src="impact-config.js"></script>
+  <script src="game.js"></script>
+</body>
+</html>
