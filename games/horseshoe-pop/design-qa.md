@@ -18,7 +18,7 @@ The combined comparisons confirm that the game uses the selected walnut, iron, a
 
 ## Focused region comparison evidence
 
-The launcher, bubbles, start medallion, map stops, lesson card, and challenge card were inspected at full browser scale. Focused comparison was needed because the source is a portrait asset board rather than a one-to-one game-screen mockup. Brisa’s dedicated square portrait now fills the gold circle without the card nameplate or rectangular frame.
+The launcher, bubbles, start medallion, map stops, lesson card, and challenge card were inspected at full browser scale. Focused comparison was needed because the source is a portrait asset board rather than a one-to-one game-screen mockup. Brisa’s dedicated square portrait now fills the gold circle without the card nameplate or rectangular frame. The loaded launcher bubble and next-bubble preview were enlarged for faster recognition while preserving the approved horseshoe launcher and ranch gameplay background.
 
 ## Required fidelity surfaces
 
@@ -44,6 +44,10 @@ The launcher, bubbles, start medallion, map stops, lesson card, and challenge ca
 - Verified all 11 bubble topics load from the approved asset artwork, with the Puerto Rican flag, coquí, coffee berries, and heritage medallion joining the seven original farm bubbles as progressive unlocks.
 - JavaScript syntax check passed.
 - Browser console contained no application errors; unrelated browser-extension metadata errors were excluded.
+- Verified keyboard aiming and firing: Arrow Right changed aim, Space fired, the shot settled, shots changed from 12 to 11, and focus remained on the game canvas.
+- Verified keyboard overlay control: achievement and trail-map headings receive focus when opened; Escape closes either panel and restores focus to the originating control or game canvas.
+- Verified touch targets are at least 44px on the mobile breakpoint, safe-area insets are respected, and reduced-motion preferences shorten shot-settle and pressure-row animation.
+- Verified storage writes fail safely with an announced warning instead of interrupting the game loop.
 - Live browser navigation passed: Destination Trail showed 10 local game stops with completed/current/locked states; Island Overview showed 10 destinations; selecting the current island destination returned to its local map.
 
 ## Findings
@@ -59,8 +63,8 @@ No actionable P0, P1, or P2 fidelity or usability issues remain in the tested st
 - Earlier P1: the map read as a generic grid rather than an island journey. Fixed by using the user-selected Puerto Rico adventure painting, positioning ten chapter markers along its route, and adding place-specific chapter copy.
 - Earlier P1: only overall progress persisted. Fixed with an active-session save that restores the exact board, shots, next bubbles, combo, mission progress, and selected power-up, alongside permanent rewards and achievements.
 
-## Residual test gap
+## Pressure-row verification
 
-The level-4+ pressure-row animation is code-checked but was not reached through normal browser progression during this QA session. It should be included in the next balance/playtest pass.
+The level-4 pressure-row path was exercised in the browser: a miss at the threshold added a full top row, animated the board downward, reset the counter from 1 to 5 misses, reduced shots once, announced the change, and produced no application console errors.
 
 final result: passed

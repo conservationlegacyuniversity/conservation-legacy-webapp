@@ -41,7 +41,7 @@
         <div class="hacienda"></div><div class="palm palm-a"></div><div class="palm palm-b"></div>
         <div class="island-ribbon">Heritage Trail • Puerto Rico</div>
       </div>
-      <canvas id="gameCanvas" width="720" height="920" aria-label="Horse Shoe Pop game board"></canvas>
+      <canvas id="gameCanvas" width="720" height="920" tabindex="0" role="application" aria-label="Horse Shoe Pop game board" aria-describedby="gameInstructions" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp Space Enter"></canvas>
       <div class="board-vignette" aria-hidden="true"></div>
       <div class="power-dock" aria-label="Power ups">
         <button id="rainbowPower" class="power-btn" type="button"><span>✦</span><b>Rainbow Shoe</b><em id="rainbowCount">1</em></button>
@@ -107,6 +107,9 @@
         </div>
       </div>
     </section>
+
+    <p id="gameInstructions" class="game-instructions">Aim with touch or mouse and release to shoot. Keyboard: Left and Right aim, Up centers, Space or Enter fires.</p>
+    <p id="gameStatus" class="sr-only" role="status" aria-live="polite"></p>
 
     <aside class="story-card">
       <div class="fact-icon" aria-hidden="true">✦</div>
