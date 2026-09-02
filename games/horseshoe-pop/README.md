@@ -6,6 +6,8 @@ The current build includes 100 levels across 10 island destinations. The island 
 
 The Legacy Impact Center connects play to animal-care themes without presenting game activity as money. Completed levels award persistent Legacy Points toward ten chapter Care Trail badges covering hay, hoof care, water, veterinary wellness, DNA and registration, dental care, genetic preservation, emergency transport, ranch repairs, and historical records. A separate Community Project card is reserved for verified financial allocations and clearly reports when no verified funds are available.
 
+Booster rewards are predictable and visible: a first-time three-star win earns a Rainbow Shoe, every destination championship awards both a Rainbow Shoe and Ranch Hammer, selected first-win stops award a booster, every third consecutive successful match awards a random booster, and every third daily-reward streak day adds a Rainbow Shoe. The victory screen presents the real horse guide, animated stars, coins, Legacy Points, and any earned booster as separate prize cards.
+
 Eleven matchable bubble topics unlock across the journey: feed sack, hay bale, water bucket, carrot, apple, grain bundle, ribbon award, Puerto Rican flag, coquí, coffee berries, and a golden Paso Fino heritage medallion. These use the approved bubble artwork directly.
 
 Every destination explains why it appears in that part of the island, and its ten games unfold ten related story beats covering ports, towns, plantations and their full labor history, rainforest and dryland terrain, coastal ranches, mountain communities, breeding farms, coffee haciendas, registries, and conservation stewardship.

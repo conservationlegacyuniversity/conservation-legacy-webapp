@@ -18,7 +18,7 @@ The combined comparisons confirm that the game uses the selected walnut, iron, a
 
 ## Focused region comparison evidence
 
-The launcher, bubbles, start medallion, map stops, lesson card, and challenge card were inspected at full browser scale. Focused comparison was needed because the source is a portrait asset board rather than a one-to-one game-screen mockup. Brisa’s dedicated square portrait now fills the gold circle without the card nameplate or rectangular frame. The loaded launcher bubble and next-bubble preview were enlarged for faster recognition while preserving the approved horseshoe launcher and ranch gameplay background.
+The launcher, bubbles, start medallion, map stops, lesson card, and challenge card were inspected at full browser scale. Focused comparison was needed because the source is a portrait asset board rather than a one-to-one game-screen mockup. Brisa’s dedicated square portrait now fills the gold circle without the card nameplate or rectangular frame. The loaded launcher bubble and next-bubble preview were enlarged for faster recognition while preserving the approved horseshoe launcher and ranch gameplay background. The loaded bubble was enlarged again to fill the horseshoe more confidently, with the next preview increased proportionally without covering Brisa or the power-up dock.
 
 ## Required fidelity surfaces
 
@@ -48,6 +48,8 @@ The launcher, bubbles, start medallion, map stops, lesson card, and challenge ca
 - Verified keyboard overlay control: achievement and trail-map headings receive focus when opened; Escape closes either panel and restores focus to the originating control or game canvas.
 - Verified the Legacy Impact Center opens from its persistent care ribbon, focuses its dialog heading, displays the chapter care goal and zero-funds planning state, and closes with Escape while restoring focus.
 - Verified that Legacy Points, chapter care progress, and verified financial impact are labeled as separate measures; the interface never assigns a cash value to play or ad views.
+- Verified the revised three-star victory state: Brisa appears in a gold celebration crest, three stars animate in, coins and Legacy Points update in the HUD, and the earned Rainbow Shoe appears as a dedicated prize card.
+- Verified all visible booster paths are backed by game logic: three-star first wins, destination championships, milestone stops, three-match streaks, and three-day reward streaks.
 - Verified touch targets are at least 44px on the mobile breakpoint, safe-area insets are respected, and reduced-motion preferences shorten shot-settle and pressure-row animation.
 - Verified storage writes fail safely with an announced warning instead of interrupting the game loop.
 - Live browser navigation passed: Destination Trail showed 10 local game stops with completed/current/locked states; Island Overview showed 10 destinations; selecting the current island destination returned to its local map.

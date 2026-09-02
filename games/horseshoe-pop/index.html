@@ -58,14 +58,25 @@
         <p class="eyebrow">A Conservation Legacy Game</p>
         <h2>Restore the Heritage Trail</h2>
         <p>Match three or more horseshoes. Clear the trail, earn Conservation Coins, and discover the living story of Puerto Rico's native horse.</p>
+        <p class="prize-tip"><b>Win more boosters:</b> earn 3 stars, build combo streaks, complete a destination, or return for daily rewards.</p>
         <p id="dailyRewardText" class="welcome-reward" hidden></p>
         <button id="startBtn" class="primary-btn">Begin the Ride</button>
       </div>
-      <div id="resultPanel" class="overlay">
+      <div id="resultPanel" class="overlay result-panel">
+        <div class="victory-burst" aria-hidden="true"></div>
+        <div class="victory-horse">
+          <img src="assets/brisa-medallion.webp" alt="Brisa de la Finca celebrating the completed trail">
+          <span>Trail Champion</span>
+        </div>
         <p class="eyebrow" id="resultEyebrow">Mission Complete</p>
         <h2 id="resultTitle">Trail Restored!</h2>
         <p id="resultText"></p>
         <div id="resultStars" class="result-stars" aria-label="Stars earned">☆☆☆</div>
+        <div class="victory-rewards" aria-label="Level prizes">
+          <article><span aria-hidden="true">●</span><b id="resultCoinReward">+3</b><small>Coins</small></article>
+          <article><span aria-hidden="true">✦</span><b id="resultPointReward">+24</b><small>Legacy Points</small></article>
+          <article id="resultBoosterCard"><span aria-hidden="true">◉</span><b id="resultBoosterReward">Rainbow Shoe</b><small>Booster Prize</small></article>
+        </div>
         <button id="nextBtn" class="primary-btn">Continue</button>
       </div>
       <div id="achievementPanel" class="overlay achievement-panel" role="dialog" aria-modal="true" aria-labelledby="achievementTitle">
